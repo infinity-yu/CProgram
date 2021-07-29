@@ -4,13 +4,14 @@
 
 #define N 10
 
-void swap(int a, int b)
+void swap(int *a, int *b)
 {
-    a ^= b;
-    b ^= a;
-    a ^= b;
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
 
+//快速排序
 void quickSort(int *arr, int begin, int end)
 {
     if (begin > end)
@@ -21,25 +22,32 @@ void quickSort(int *arr, int begin, int end)
     int j = end;
     while (i != j)
     {
-        while (j > key && j > i)
+        while (arr[j] >= key && j > i)
         {
             j--;
         }
-        while (i < key && j > i)
+        while (arr[i] <= key && j > i)
         {
             i++;
         }
-        swap(arr[i], arr[j]);
+
+        swap(&arr[i], &arr[j]);
+        // int k = 0;
+        // for (k = 0; k < N; k++)
+        // {
+        //     printf("%d ", arr[k]);
+        // }
+        // puts("");
     }
     arr[begin] = arr[i];
     arr[i] = key;
 
-    int k = 0;
-    for (k = 0; k < N; i++)
-    {
-        printf("%d ", arr[k]);
-    }
-    puts("");
+    // int k = 0;
+    // for (k = 0; k < N; k++)
+    // {
+    //     printf("%d ", arr[k]);
+    // }
+    // puts("\n----------------------------");
 
     quickSort(arr, begin, i - 1);
     quickSort(arr, i + 1, end);
@@ -54,7 +62,21 @@ void test()
     {
         arr[i] = rand() % 10;
     }
+    puts("-----------before sort------------");
+
+    for (i = 0; i < N; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    puts("\n-------------------------------");
     quickSort(arr, 0, N - 1);
+    puts("-----------after sort------------");
+
+    for (i = 0; i < N; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    puts("\n-------------------------------");
 }
 
 int main()
